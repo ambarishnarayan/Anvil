@@ -79,15 +79,15 @@ def predict(model: str):
         im_df = im_df/255.0
        if model=='basicCNN':
         val = basicCNN.predict(im_df)
-       elif model=='ViT':
-        df = np.expand_dims(im_df, axis=0)
-        df =  ViT.preprocess_data(df)[0]
-        val = ViT.predict(df)
+      #  elif model=='ViT':
+      #   df = np.expand_dims(im_df, axis=0)
+      #   df =  ViT.preprocess_data(df)[0]
+      #   val = ViT.predict(df)
        else:
         raise ValueError(f"No model found with name {model}")
        return val
     except Error as e:
       return e
 
-anvil.server.connect("")
+anvil.server.connect("server_A3XFL2BX57XSEH6BD57OEOYI-2HI3P2QB3HI672CB")
 anvil.server.wait_forever()
