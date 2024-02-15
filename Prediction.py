@@ -18,7 +18,7 @@ import anvil.server
 
 # Load the pre-trained CNN model
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
-ViT = tf.keras.models.load_model("ViT4MNIST.keras")
+#ViT = tf.keras.models.load_model("ViT4MNIST.keras")
 
 
 # Test
@@ -29,12 +29,12 @@ def test_evalute_CNN():
     return "Accuracy on the test dataset using CNN is  {}".format(round(accuracy,4))
 print(test_evalute_CNN())
 
-@anvil.server.callable
-def test_evalute_ViT():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    loss, accuracy = ViT.evaluate(x_test,y_test)
-    return "Accuracy on the test dataset using ViT is  {}".format(round(accuracy,4))
-print(test_evalute_ViT())
+# @anvil.server.callable
+# def test_evalute_ViT():
+#     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+#     loss, accuracy = ViT.evaluate(x_test,y_test)
+#     return "Accuracy on the test dataset using ViT is  {}".format(round(accuracy,4))
+# print(test_evalute_ViT())
 
 
 

@@ -62,12 +62,12 @@ with open("history_all.json", "w") as fp:
 model.save("CNN4MNIST.keras")
 
 	
-# Test 
-def test_evalute():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    loss, accuracy = model.evaluate(x_test,y_test)
-    return "Accuracy on the test dataset using CNN is {}".format(accuracy)
-test_evalute()
+# # Test 
+# def test_evalute():
+#     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+#     loss, accuracy = model.evaluate(x_test,y_test)
+#     return "Accuracy on the test dataset using CNN is {}".format(accuracy)
+# test_evalute()
 
 
 

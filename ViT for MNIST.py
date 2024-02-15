@@ -137,9 +137,3 @@ with open("history_all.json", "w") as fp:
 
 model_Vit.save("ViT4MNIST.keras")
 
-# Test 
-def test_evalute():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    loss, accuracy = model_Vit.evaluate(x_test,y_test)
-    return "Accuracy on the test dataset using ViT is {} ".format(accuracy)
-test_evalute()
