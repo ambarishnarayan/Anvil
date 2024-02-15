@@ -67,7 +67,7 @@ def convert_image(file):
 
 
 @anvil.server.callable
-def predict(model: str):
+def predict(model: str, file):
     try:
        file = file.get_bytes()
        im_df = pd.read_csv(BytesIO(file), header=None)
@@ -78,6 +78,8 @@ def predict(model: str):
        if max_val > 1:
         im_df = im_df/255.0
        if model=='basicCNN':
+        x = np.expand_dims(im_df, axis=0)
+        x = tf.convert_to_tensor(x)
         val = basicCNN.predict(im_df)
       #  elif model=='ViT':
       #   df = np.expand_dims(im_df, axis=0)
