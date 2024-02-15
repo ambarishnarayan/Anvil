@@ -81,10 +81,10 @@ def predict(model: str, file):
         x = np.expand_dims(im_df, axis=0)
         x = tf.convert_to_tensor(x)
         val = basicCNN.predict(im_df)
-      #  elif model=='ViT':
-      #   df = np.expand_dims(im_df, axis=0)
-      #   df =  ViT.preprocess_data(df)[0]
-      #   val = ViT.predict(df)
+       elif model=='ViT':
+        df = np.expand_dims(im_df, axis=0)
+        df =  ViT.preprocess_data(df)[0]
+        val = ViT.predict(df)
        else:
         raise ValueError(f"No model found with name {model}")
        return val
