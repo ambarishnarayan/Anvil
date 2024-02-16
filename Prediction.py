@@ -78,17 +78,19 @@ def predict(model: str, file):
        if max_val > 1:
         im_df = im_df/255.0
        if model=='basicCNN':
-        # x = np.expand_dims(im_df, axis=0)
+        im_df = np.expand_dims(im_df, axis=0)
         # print(x.shape)
         x = tf.convert_to_tensor(im_df)
-        val = basicCNN.predict(im_df)
+        val = basicCNN.predict(x)
        elif model=='ViT':
-        df = np.expand_dims(im_df, axis=0)
-        df =  ViT.preprocess_data(df)[0]
-        val = ViT.predict(df)
+        # df = np.expand_dims(im_df, axis=0)
+        # df =  ViT.preprocess_data(df)[0]
+        # val = ViT.predict(df)
+         pass
        else:
         raise ValueError(f"No model found with name {model}")
-       return val
+       print(val)
+       return np.argmax(val)
     except Error as e:
       return e
 
