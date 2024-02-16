@@ -101,7 +101,7 @@ def predict(model: str, file):
            df = np.expand_dims(im_df, axis=0)
            df = preprocess_data(df, 7, 7)[0]
            pos_feed = np.array([list(range(7*7))
-                             ]*x.shape[0])
+                             ]*16)
            df = np.expand_dims(im_df, axis=0)
            val = ViT.predict([df, pos_feed])
        else:
