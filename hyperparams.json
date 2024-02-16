@@ -1,0 +1,1 @@
+{"patch_rows": 7, "patch_columns": 7, "embedding_dim": 128, "img_shape_x": 28, "img_shape_y": 28, "n_encoders": 4, "n_heads": 8, "key_dim": 16, "value_dim": 16, "dropout_rate": 0.1, "num_classes": 10, "block_size": 16}
