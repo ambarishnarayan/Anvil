@@ -15,10 +15,28 @@ from io import BytesIO
 from PIL import Image
 import anvil.server
 
+class ClassToken(tf.keras.layers.Layer):
+    def __init__(self):
+        super().__init__()
 
+    def build(self, input_shape):
+        w_init = tf.random_normal_initializer()
+        self.w = tf.Variable(
+            initial_value = w_init(shape=(1, 1, input_shape[-1]), dtype=tf.float32),
+            trainable = True
+        )
+
+    def call(self, inputs):
+        batch_size = tf.shape(inputs)[0]
+        hidden_dim = self.w.shape[-1]
+
+        cls = tf.broadcast_to(self.w, [batch_size, 1, hidden_dim])
+        cls = tf.cast(cls, dtype=inputs.dtype)
+        return cls
+        
 # Load the pre-trained CNN model
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
-ViT = tf.keras.models.load_model("ViT4MNIST.keras")
+ViT = tf.keras.models.load_model("ViT4MNIST.keras", custom_objects={'ClassToken': ClassToken})
 
 def preprocess_data(data, patch_rows: Union[int, None], patch_columns: Union[int, None]):
     if type(data)!=np.ndarray:
