@@ -13,6 +13,7 @@ import numpy as np
 import json
 from io import BytesIO
 from PIL import Image
+from typing import Union
 import anvil.server
 
 class ClassToken(tf.keras.layers.Layer):
