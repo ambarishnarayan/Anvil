@@ -18,27 +18,24 @@ import anvil.server
 
 # Load the pre-trained CNN model
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
-#ViT = tf.keras.models.load_model("ViT4MNIST.keras")
+ViT = tf.keras.models.load_model("ViT4MNIST.keras")
 
-
-# Test
-@anvil.server.callable
-def test_evalute_CNN():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    loss, accuracy = basicCNN.evaluate(x_test,y_test)
-    return "Accuracy on the test dataset using CNN is  {}".format(round(accuracy,4))
-print(test_evalute_CNN())
-
-# @anvil.server.callable
-# def test_evalute_ViT():
-#     (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-#     loss, accuracy = ViT.evaluate(x_test,y_test)
-#     return "Accuracy on the test dataset using ViT is  {}".format(round(accuracy,4))
-# print(test_evalute_ViT())
-
-
-
-
+def preprocess_data(data, patch_rows: Union[int, None], patch_columns: Union[int, None]):
+    if type(data)!=np.ndarray:
+        data = data.numpy()
+    
+    flatten_images = np.zeros((data.shape[0],patch_rows*patch_columns,
+                               int((data.shape[1]*data.shape[1])/(patch_rows*patch_columns))))
+    helper = int(data.shape[1]/patch_rows)
+    for i in range(data.shape[0]):
+        ind = 0
+        for row in range(patch_rows):
+            for col in range(patch_columns):
+                flatten_images[i,ind,:] = data[i,
+                                               (row*helper):((row+1)*helper),
+                                               (col*helper):((col+1)*helper)].ravel()
+                ind += 1
+    return tf.convert_to_tensor(flatten_images)
 
 
 @anvil.server.callable
@@ -52,8 +49,8 @@ def convert_image(file):
         raise ValueError(f"Expected file of shape(28, 28), but recieved with shape {im_df.shape}")
       
       max_val = np.max(im_df)
-      if max_val > 1:
-        im_df = im_df/255.0
+      if max_val <= 1:
+        im_df = im_df*255.0
       
       image = Image.fromarray(im_df)
       image = image.convert("L")
@@ -83,10 +80,12 @@ def predict(model: str, file):
         x = tf.convert_to_tensor(im_df)
         val = basicCNN.predict(x)
        elif model=='ViT':
-        # df = np.expand_dims(im_df, axis=0)
-        # df =  ViT.preprocess_data(df)[0]
-        # val = ViT.predict(df)
-         pass
+           df = np.expand_dims(im_df, axis=0)
+           df = preprocess_data(df, 7, 7)[0]
+           pos_feed = np.array([list(range(7*7))
+                             ]*x.shape[0])
+           df = np.expand_dims(im_df, axis=0)
+           val = ViT.predict([df, pos_feed])
        else:
         raise ValueError(f"No model found with name {model}")
        print(val)
