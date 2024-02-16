@@ -111,8 +111,8 @@ def predict(model: str, file):
            # pos_feed = np.expand_dims(pos_feed, axis=0)
            # print(df.shape, pos_feed.shape)
            # val = ViT.predict([df, pos_feed])
-        df = vit.preprocess_data(im_df)[0]
-        val = vit.predict(df)
+           df = vit.preprocess_data(im_df)[0]
+           val = vit.predict(df)
        else:
         raise ValueError(f"No model found with name {model}")
        print(val)
