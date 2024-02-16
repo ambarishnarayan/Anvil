@@ -16,23 +16,22 @@ from PIL import Image
 import anvil.server
 
 class ClassToken(tf.keras.layers.Layer):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.class_token = None
 
     def build(self, input_shape):
-        w_init = tf.random_normal_initializer()
-        self.w = tf.Variable(
-            initial_value = w_init(shape=(1, 1, input_shape[-1]), dtype=tf.float32),
-            trainable = True
+        self.class_token = self.add_weight(
+            shape=(1, 1, input_shape[-1]),  # Adding a class token for each feature dimension
+            initializer='zeros',
+            trainable=True,
+            name='class_token'
         )
 
     def call(self, inputs):
         batch_size = tf.shape(inputs)[0]
-        hidden_dim = self.w.shape[-1]
-
-        cls = tf.broadcast_to(self.w, [batch_size, 1, hidden_dim])
-        cls = tf.cast(cls, dtype=inputs.dtype)
-        return cls
+        class_token_broadcasted = tf.tile(self.class_token, [batch_size, 1, 1])
+        return tf.keras.layers.Concatenate(axis=1)([class_token_broadcasted, inputs])  # Prepending the class token
         
 # Load the pre-trained CNN model
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
