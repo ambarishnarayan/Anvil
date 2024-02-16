@@ -174,7 +174,7 @@ class VisionTrnasformer():
             use_multiprocessing=use_multiprocessing
             )
 
-        value = np.argmax(value)
+        # value = np.argmax(value)
         return value
 
     def evaluate(self, x=None, y=None):
