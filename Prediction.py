@@ -105,8 +105,8 @@ def predict(model: str, file):
            df = preprocess_data(df, 7, 7)[0]
            pos_feed = np.array([list(range(16))
                              ]*49)
-           # df = np.expand_dims(df, axis=0)
-           # pos_feed = np.expand_dims(pos_feed, axis=0)
+           df = np.expand_dims(df, axis=0)
+           pos_feed = np.expand_dims(pos_feed, axis=0)
            print(df.shape, pos_feed.shape)
            val = ViT.predict([df, pos_feed])
        else:
