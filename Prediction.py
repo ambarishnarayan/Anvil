@@ -58,6 +58,7 @@ def preprocess_data(data, patch_rows: Union[int, None], patch_columns: Union[int
 
 @anvil.server.callable
 def convert_image(file):
+    print("conv image")
     try:
       file = file.get_bytes()
       im_df = pd.read_csv(BytesIO(file), header=None)
@@ -93,11 +94,13 @@ def predict(model: str, file):
        if max_val > 1:
         im_df = im_df/255.0
        if model=='basicCNN':
+        print("dfdf")
         im_df = np.expand_dims(im_df, axis=0)
         print(im_df.shape)
         x = tf.convert_to_tensor(im_df)
         val = basicCNN.predict(x)
        elif model=='ViT':
+           print("vit")
            df = np.expand_dims(im_df, axis=0)
            df = preprocess_data(df, 7, 7)[0]
            pos_feed = np.array([list(range(7*7))
