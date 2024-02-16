@@ -103,6 +103,7 @@ def predict(model: str, file):
            pos_feed = np.array([list(range(7*7))
                              ]*16)
            df = np.expand_dims(im_df, axis=0)
+           print(df.shape)
            val = ViT.predict([df, pos_feed])
        else:
         raise ValueError(f"No model found with name {model}")
