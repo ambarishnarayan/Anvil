@@ -79,7 +79,7 @@ def predict(model: str, file):
         im_df = im_df/255.0
        if model=='basicCNN':
         im_df = np.expand_dims(im_df, axis=0)
-        # print(x.shape)
+        print(im_df.shape)
         x = tf.convert_to_tensor(im_df)
         val = basicCNN.predict(x)
        elif model=='ViT':
