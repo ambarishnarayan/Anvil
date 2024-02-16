@@ -103,8 +103,8 @@ def predict(model: str, file):
            print("vit")
            df = np.expand_dims(im_df, axis=0)
            df = preprocess_data(df, 7, 7)[0]
-           pos_feed = np.array([list(range(7*7))
-                             ]*16)
+           pos_feed = np.array([list(range(16))
+                             ]*49)
            df = np.expand_dims(df, axis=0)
            print(df.shape, pos_feed.shape)
            val = ViT.predict([df, pos_feed])
