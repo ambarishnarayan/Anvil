@@ -14,7 +14,7 @@ import json
 from io import BytesIO
 from PIL import Image
 from typing import Union
-from model import VisionTrnasformer
+# from model import VisionTrnasformer
 import anvil.server
 
 class ClassToken(tf.keras.layers.Layer):
@@ -36,9 +36,8 @@ class ClassToken(tf.keras.layers.Layer):
         return tf.keras.layers.Concatenate(axis=1)([class_token_broadcasted, inputs])  # Prepending the class token
         
 # Load the pre-trained CNN model
-vit = VisionTrnasformer()
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
-ViT = vit.load_model("ViT4MNIST")
+ViT =  tf.keras.models.load_model("ViT4MNIST.keras")
 
 def preprocess_data(data, patch_rows: Union[int, None], patch_columns: Union[int, None]):
     if type(data)!=np.ndarray:
@@ -103,16 +102,15 @@ def predict(model: str, file):
         val = basicCNN.predict(x)
        elif model=='ViT':
            print("vit")
-           # df = np.expand_dims(im_df, axis=0)
-           # df = preprocess_data(df, 7, 7)[0]
-           # pos_feed = np.array([list(range(16))
-           #                   ]*49)
-           # df = np.expand_dims(df, axis=0)
-           # pos_feed = np.expand_dims(pos_feed, axis=0)
-           # print(df.shape, pos_feed.shape)
-           # val = ViT.predict([df, pos_feed])
-           df = vit.preprocess_data(im_df)[0]
-           val = vit.predict(df)
+           df = np.expand_dims(im_df, axis=0)
+           df = preprocess_data(df, 7, 7)[0]
+           pos_feed = np.array(49)
+           df = np.expand_dims(df, axis=0)
+           pos_feed = np.expand_dims(pos_feed, axis=0)
+           print(df.shape, pos_feed.shape)
+           val = ViT.predict([df, pos_feed])
+           # df = vit.preprocess_data(im_df)[0]
+           # val = vit.predict(df)
        else:
         raise ValueError(f"No model found with name {model}")
        print(val)
