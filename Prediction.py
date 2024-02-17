@@ -85,6 +85,7 @@ def convert_image(file):
 
 @anvil.server.callable
 def predict(model: str, file):
+    print("Predict")
     try:
        file = file.get_bytes()
        im_df = pd.read_csv(BytesIO(file), header=None)
