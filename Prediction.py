@@ -37,7 +37,7 @@ class ClassToken(tf.keras.layers.Layer):
         
 # Load the pre-trained CNN model
 basicCNN = tf.keras.models.load_model("CNN4MNIST.keras")
-ViT =  tf.keras.models.load_model("ViT4MNIST.keras")
+ViT =  tf.keras.models.load_model("ViT4MNIST.keras", custom_objects={'ClassToken': ClassToken})
 
 def preprocess_data(data, patch_rows: Union[int, None], patch_columns: Union[int, None]):
     if type(data)!=np.ndarray:
