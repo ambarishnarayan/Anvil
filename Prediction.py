@@ -72,6 +72,7 @@ def convert_image(file):
       if max_val <= 1:
         im_df = im_df*255.0
       
+      im_df = im_df.astype(np.uint8)
       image = Image.fromarray(im_df)
       image = image.convert("L")
       bs = BytesIO()
